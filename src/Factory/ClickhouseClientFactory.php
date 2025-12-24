@@ -45,7 +45,15 @@ final class ClickhouseClientFactory
             unset($config['options']);
         }
 
-        $client = new Client($config);
+        $settings = [];
+
+        if (isset($config['settings'])) {
+            $settings = $config['settings'];
+
+            unset($config['settings']);
+        }
+
+        $client = new Client($config, $settings);
 
         foreach ($options as $option => $value) {
             $method = $this->resolveOptionMutatorMethod($client, $option);
